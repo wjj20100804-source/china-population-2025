@@ -173,6 +173,9 @@ def main(src, outdir):
     head_part = out[:first_h2]
     rest = out[first_h2:]
 
+    pdf_path = os.path.join(outdir, "assets", "report.pdf")
+    pdf_link = ('<p class="dl"><a href="assets/report.pdf">下载 PDF 版（约 1 MB）</a></p>'
+                if os.path.exists(pdf_path) else "")
     page = """<!doctype html>
 <html lang="zh-CN">
 <head>
@@ -186,6 +189,7 @@ def main(src, outdir):
 <main class="wrap">
 <header class="cover">
 %s
+%s
 </header>
 %s
 <article class="doc">
@@ -197,7 +201,7 @@ def main(src, outdir):
 </main>
 </body>
 </html>
-""" % ("\n".join(head_part), "\n".join(toc_html), "\n".join(rest))
+""" % ("\n".join(head_part), pdf_link, "\n".join(toc_html), "\n".join(rest))
 
     with open(os.path.join(outdir, "index.html"), "w", encoding="utf-8") as f:
         f.write(page)
